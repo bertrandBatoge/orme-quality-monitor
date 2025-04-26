@@ -13,6 +13,13 @@ pom.xml.versionsBackup
 release.properties
 .flattened-pom.xml
 
+# H2 database files
+*.mv.db
+*.trace.db
+
+# Data directory
+/data/
+
 # Eclipse
 .project
 .classpath
