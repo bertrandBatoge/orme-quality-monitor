@@ -1,0 +1,9 @@
+CREATE SEQUENCE IF NOT EXISTS jenkins_jobs_SEQ START WITH 1 INCREMENT BY 50;
+
+CREATE TABLE IF NOT EXISTS jenkins_jobs (
+    id BIGINT PRIMARY KEY DEFAULT nextval('jenkins_jobs_SEQ'),
+    team VARCHAR(255) NOT NULL,
+    orme_version VARCHAR(255),
+    name VARCHAR(255) NOT NULL,
+    url VARCHAR(1024) NOT NULL
+);
