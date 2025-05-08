@@ -37,6 +37,14 @@ public class JenkinsJobService {
 
     @Transactional
     public JenkinsJob createJob(JenkinsJob job) {
+        List<JenkinsJob> existingJobs = repository.find(
+                "team = ?1 and ormeVersion = ?2 and name = ?3 and url = ?4",
+                job.team, job.ormeVersion, job.name, job.url
+        ).list();
+
+        if (!existingJobs.isEmpty()) {
+            return existingJobs.get(0);
+        }
         repository.persist(job);
         return job;
     }

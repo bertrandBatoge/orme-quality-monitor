@@ -1,8 +1,10 @@
 package com.dedalus.resource;
 
+import com.dedalus.dto.CreateJenkinsJobRequest;
 import com.dedalus.model.JenkinsJob;
 import com.dedalus.service.JenkinsJobService;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -52,7 +54,13 @@ public class JenkinsJobResource {
     }
 
     @POST
-    public Response createJob(JenkinsJob job) {
+    public Response createJob(@Valid CreateJenkinsJobRequest request) {
+        JenkinsJob job = new JenkinsJob(
+                request.team,
+                request.ormeVersion,
+                request.name,
+                request.url
+        );
         JenkinsJob created = service.createJob(job);
         return Response
                 .created(UriBuilder.fromResource(JenkinsJobResource.class)
