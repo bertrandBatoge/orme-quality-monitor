@@ -10,16 +10,21 @@ import jakarta.inject.Inject;
 import static org.junit.jupiter.api.Assertions.*;
 
 @QuarkusTest
-public class JenkinsJobTest {
+class JenkinsJobTest {
 
     @Inject
     EntityManager em;
 
     @Test
     @Transactional
-    public void testPersistAndRetrieveJenkinsJob() {
+    void testPersistAndRetrieveJenkinsJob() {
+        String uniqueSuffix = System.currentTimeMillis() + "";
+
         // Create a new JenkinsJob
-        JenkinsJob job = new JenkinsJob("Pharma", "v3.21.00", "pharma-tests",
+        JenkinsJob job = new JenkinsJob(
+                "Pharma" + uniqueSuffix,
+                "v3.21.00",
+                "pharma-tests" + uniqueSuffix,
                 "https://ci-jenkins.orbis.dedalus.com/job/HORME/job/DEV_Builds/view/All/job/global_repo/job/DEV_V3.21.00/job/pharma-tests");
 
         // Persist it
@@ -34,9 +39,9 @@ public class JenkinsJobTest {
 
         // Assert
         assertNotNull(retrievedJob);
-        assertEquals("Pharma", retrievedJob.team);
+        assertEquals("Pharma" + uniqueSuffix, retrievedJob.team);
         assertEquals("v3.21.00", retrievedJob.ormeVersion);
-        assertEquals("pharma-tests", retrievedJob.name);
+        assertEquals("pharma-tests"+ uniqueSuffix, retrievedJob.name);
         assertEquals("https://ci-jenkins.orbis.dedalus.com/job/HORME/job/DEV_Builds/view/All/job/global_repo/job/DEV_V3.21.00/job/pharma-tests", retrievedJob.url);
     }
 }

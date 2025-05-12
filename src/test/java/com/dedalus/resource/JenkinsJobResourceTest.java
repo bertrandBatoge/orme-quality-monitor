@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
 
 @QuarkusTest
-public class JenkinsJobResourceTest {
+class JenkinsJobResourceTest {
 
     @InjectMock
     JenkinsJobService service;
@@ -32,18 +32,16 @@ public class JenkinsJobResourceTest {
     private JenkinsJob job2;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         job1 = new JenkinsJob("Pharma", "v3.21.00", "pharma-tests",
                 "https://jenkins.example.com/pharma-tests");
-        job1.id = 1L;
 
         job2 = new JenkinsJob("Presc", "v3.21.00", "presc-tests",
                 "https://jenkins.example.com/presc-tests");
-        job2.id = 2L;
     }
 
     @Test
-    public void testGetAllJobs() {
+    void testGetAllJobs() {
         when(service.getAllJobs()).thenReturn(Arrays.asList(job1, job2));
 
         given()
@@ -60,7 +58,7 @@ public class JenkinsJobResourceTest {
     }
 
     @Test
-    public void testGetJobById() {
+    void testGetJobById() {
         when(service.getJobById(1L)).thenReturn(Optional.of(job1));
 
         given()
@@ -76,7 +74,7 @@ public class JenkinsJobResourceTest {
     }
 
     @Test
-    public void testGetJobByIdNotFound() {
+    void testGetJobByIdNotFound() {
         when(service.getJobById(99L)).thenReturn(Optional.empty());
 
         given()
@@ -89,7 +87,7 @@ public class JenkinsJobResourceTest {
     }
 
     @Test
-    public void testGetJobsByTeam() {
+    void testGetJobsByTeam() {
         when(service.getJobsByTeam("Pharma")).thenReturn(Collections.singletonList(job1));
 
         given()
@@ -105,7 +103,7 @@ public class JenkinsJobResourceTest {
     }
 
     @Test
-    public void testGetJobsByTeamAndVersion() {
+    void testGetJobsByTeamAndVersion() {
         when(service.getJobsByTeamAndOrmeVersion("Pharma", "v3.21.00"))
                 .thenReturn(Collections.singletonList(job1));
 
@@ -123,9 +121,13 @@ public class JenkinsJobResourceTest {
     }
 
     @Test
-    public void testCreateJob() {
-        JenkinsJob newJob = new JenkinsJob("Pharma", "v3.22.00", "new-test",
+    void testCreateJob() {
+        JenkinsJob newJob = new JenkinsJob(
+                "Pharma",
+                "v3.22.00",
+                "new-test",
                 "https://jenkins.example.com/new-test");
+
         newJob.id = 3L;
 
         when(service.createJob(any(JenkinsJob.class))).thenReturn(newJob);
@@ -146,7 +148,7 @@ public class JenkinsJobResourceTest {
     }
 
     @Test
-    public void testUpdateJob() {
+    void testUpdateJob() {
         JenkinsJob updatedJob = new JenkinsJob("Pharma", "v3.22.00", "updated-test",
                 "https://jenkins.example.com/updated-test");
         updatedJob.id = 1L;
@@ -168,7 +170,7 @@ public class JenkinsJobResourceTest {
     }
 
     @Test
-    public void testUpdateJobNotFound() {
+    void testUpdateJobNotFound() {
         JenkinsJob updatedJob = new JenkinsJob("Pharma", "v3.22.00", "updated-test",
                 "https://jenkins.example.com/updated-test");
 
@@ -186,7 +188,7 @@ public class JenkinsJobResourceTest {
     }
 
     @Test
-    public void testDeleteJob() {
+    void testDeleteJob() {
         when(service.deleteJob(1L)).thenReturn(true);
 
         given()
@@ -199,7 +201,7 @@ public class JenkinsJobResourceTest {
     }
 
     @Test
-    public void testDeleteJobNotFound() {
+    void testDeleteJobNotFound() {
         when(service.deleteJob(99L)).thenReturn(false);
 
         given()
