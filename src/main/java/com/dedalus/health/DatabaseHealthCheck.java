@@ -10,9 +10,12 @@ import org.eclipse.microprofile.health.Readiness;
 @ApplicationScoped
 @Readiness
 public class DatabaseHealthCheck implements HealthCheck {
+    private final JenkinsJobRepository repository;
 
     @Inject
-    JenkinsJobRepository repository;
+    public DatabaseHealthCheck(JenkinsJobRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public HealthCheckResponse call() {

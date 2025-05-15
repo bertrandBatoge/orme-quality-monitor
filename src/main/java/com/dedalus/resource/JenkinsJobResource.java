@@ -1,6 +1,6 @@
 package com.dedalus.resource;
 
-import com.dedalus.dto.CreateJenkinsJobRequest;
+import com.dedalus.dto.JenkinsJobDTO;
 import com.dedalus.model.JenkinsJob;
 import com.dedalus.service.JenkinsJobService;
 import jakarta.inject.Inject;
@@ -54,14 +54,10 @@ public class JenkinsJobResource {
     }
 
     @POST
-    public Response createJob(@Valid CreateJenkinsJobRequest request) {
-        JenkinsJob job = new JenkinsJob(
-                request.team,
-                request.ormeVersion,
-                request.name,
-                request.url
-        );
+    public Response createJob(@Valid JenkinsJobDTO jenkinsJobDTO) {
+        JenkinsJob job = jenkinsJobDTO.toEntity();
         JenkinsJob created = service.createJob(job);
+
         return Response
                 .created(UriBuilder.fromResource(JenkinsJobResource.class)
                         .path(String.valueOf(created.id))
